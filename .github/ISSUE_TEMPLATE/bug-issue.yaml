@@ -8,7 +8,7 @@ body:
           # crDroid bug report
           
           Important to note that your issue may have already been reported before. 
-          Please check for existing issues [here](https://github.com/gwolf2u/issues/issues/labels/bug).
+          Please check for existing issues [here](https://github.com/crdroidandroid/issue_tracker/issues/labels/bug).
     type: markdown
   - attributes: 
       label: Issue type
