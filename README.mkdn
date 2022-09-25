@@ -1,0 +1,6 @@
+![alt text][logo]
+
+[logo]:https://crdroid.net/img/logo.png "crDroid Android"
+
+## Submit new issue ##
+In order to submit new issue, [click me](https://github.com/crdroidandroid/issue_tracker/issues/new/choose)

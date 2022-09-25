@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📃 Build crDroid
+    url: https://github.com/crdroidandroid/android/
+    about: See initial crDroid build documentation
+  - name: 🗨 Telegram
+    url: https://t.me/crDroidAndroid
+    about: Join the chat on Telegram
