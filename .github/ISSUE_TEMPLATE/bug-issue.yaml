@@ -8,7 +8,8 @@ body:
           # crDroid bug report
           
           Important to note that your issue may have already been reported before. 
-          Please check for existing issues [here](https://github.com/crdroidandroid/issue_tracker/issues/labels/bug).
+          Please check for existing issues [here](https://github.com/crdroidandroid/issue_tracker/issues/labels/bug).  
+          *Do note that unofficial versions will not get supported since we can not check device specific source.*
     type: markdown
   - attributes: 
       label: Issue type
@@ -86,6 +87,8 @@ body:
       description: "Your issue will be closed if you haven't done these steps."
       label: Acknowledgements
       options: 
+        - label: "I've checked device is officially supported."
+          required: true
         - label: "I have searched the existing issues and this is a new and no duplicate or related to another open issue."
           required: true
         - label: "I have written a short but informative title."
