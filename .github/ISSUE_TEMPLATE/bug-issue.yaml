@@ -37,6 +37,12 @@ body:
     validations: 
       required: true
   - attributes: 
+      description: "Exact crDroid version **Ex: 8.6**"
+      label: Exact version
+    type: textarea
+    validations: 
+      required: true
+  - attributes: 
       description: "Simple description of the issue"
       label: "Bug description"
     type: textarea
