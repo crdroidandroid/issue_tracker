@@ -38,8 +38,8 @@ body:
     validations: 
       required: true
   - attributes: 
-      description: "Exact crDroid version **Ex: 8.6**"
-      label: Exact version
+      description: "Exact crDroid version **Ex: 8.6/2022-06-17**"
+      label: Exact version / Build date
     type: textarea
     validations: 
       required: true
