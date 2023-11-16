@@ -34,6 +34,7 @@ body:
         - "crDroid 7"
         - "crDroid 8"
         - "crDroid 9"
+        - "crDroid 10"
     type: dropdown
     validations: 
       required: true
