@@ -31,7 +31,6 @@ body:
       description: "*Only current still updated source code is listed*"
       label: "crDroid version"
       options: 
-        - "crDroid 7"
         - "crDroid 8"
         - "crDroid 9"
         - "crDroid 10"
