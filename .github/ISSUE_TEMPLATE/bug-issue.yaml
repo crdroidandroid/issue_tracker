@@ -33,6 +33,7 @@ body:
       options: 
         - "crDroid 9"
         - "crDroid 10"
+        - "crDroid 11"
     type: dropdown
     validations: 
       required: true
