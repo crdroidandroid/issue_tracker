@@ -31,7 +31,6 @@ body:
       description: "*Only current still updated source code is listed*"
       label: "crDroid version"
       options: 
-        - "crDroid 9"
         - "crDroid 10"
         - "crDroid 11"
     type: dropdown
@@ -95,7 +94,7 @@ body:
           required: true
         - label: "I have written a short but informative title."
           required: true
-        - label: "I filled out all of the requested information in this issue properly."
+        - label: "I filled out all of the requested information in this issue properly and understand that not doing so will automatically result in closing of ticket."
           required: true
     id: acknowledgements
     type: checkboxes
