@@ -1,6 +1,6 @@
 name: "🐞 Bug report"
 description: "Report an inssue"
-title: "bug: title (<-- change me)"
+title: ""
 labels: ["bug", "needs-triage"]
 body: 
   - attributes: 
