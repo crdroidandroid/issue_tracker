@@ -31,7 +31,6 @@ body:
       description: "*Only current still updated source code is listed*"
       label: "crDroid version"
       options: 
-        - "crDroid 10"
         - "crDroid 11"
     type: dropdown
     validations: 
