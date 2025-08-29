@@ -85,9 +85,9 @@ body:
       description: "Your issue will be closed if you haven't done these steps."
       label: Acknowledgements
       options: 
-        - label: "I've checked device is officially supported (for device specific reports and not source related)."
+        - label: "I've checked device is officially supported and that no support is provided for unofficial devices (for device specific reports and not source related)."
           required: false
-        - label: "I'm running latest version available on crdroid.net for this device"
+        - label: "I'm running latest version available on crdroid.net for this device and that the device is still maintainer supported (not flagged unsupported on download page)"
           required: true
         - label: "I have searched the existing issues and this is a new and no duplicate or related to another open issue."
           required: true
