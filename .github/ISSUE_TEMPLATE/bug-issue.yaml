@@ -32,6 +32,7 @@ body:
       label: "crDroid version"
       options: 
         - "crDroid 11"
+        - "crDroid 12"
     type: dropdown
     validations: 
       required: true
