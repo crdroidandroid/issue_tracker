@@ -1,6 +1,5 @@
 name: "🐞 Bug report"
 description: "Report an inssue"
-title: "bug: "
 labels: ["bug", "needs-triage"]
 body: 
   - attributes: 
@@ -37,7 +36,7 @@ body:
     validations: 
       required: true
   - attributes: 
-      description: "Exact crDroid version **Ex: 8.6/2022-06-17**"
+      description: "Exact crDroid version **Ex: 12.5/2026-01-02**"
       label: Exact version / Build date
     type: textarea
     validations: 
