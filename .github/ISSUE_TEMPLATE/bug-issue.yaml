@@ -30,8 +30,8 @@ body:
       description: "*Only current still updated source code is listed*"
       label: "crDroid version"
       options: 
-        - "crDroid 11"
         - "crDroid 12"
+        - "crDroid 13"
     type: dropdown
     validations: 
       required: true
