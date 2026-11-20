@@ -1,99 +1,75 @@
 name: "🐞 Bug report"
-description: "Report an inssue"
+description: "Report a problem with crDroid"
 labels: ["bug", "needs-triage"]
-body: 
-  - attributes: 
+body:
+  - type: markdown
+    attributes:
       value: |
-          # crDroid bug report
-          
-          Important to note that your issue may have already been reported before. 
-          Please check for existing issues [here](https://github.com/crdroidandroid/issue_tracker/issues/labels/bug).  
-          *Do note that unofficial versions will not get supported since we can not check device specific source.*
-    type: markdown
-  - attributes: 
-      label: Issue type
-      options: 
-        - "User interface"
-        - "Feature not working as intended"
-        - "Source code related"
-        - "Other"
-    type: dropdown
-    validations: 
-      required: true
-  - attributes: 
-      description: "Device should be listed as **Device (codename)**"
+        ## crDroid bug report
+        Before submitting, please [search existing issues](https://github.com/crdroidandroid/issue_tracker/issues?q=is%3Aissue+label%3Abug).
+        
+        ⚠️ **Unofficial builds are not supported**, since we can't verify device-specific sources.
+
+  - type: input
+    id: device
+    attributes:
       label: Device
-    type: textarea
-    validations: 
+      description: "Format: **Device name (codename)**"
+      placeholder: "Pixel 7 (panther)"
+    validations:
       required: true
-  - attributes: 
-      description: "*Only current still updated source code is listed*"
-      label: "crDroid version"
-      options: 
-        - "crDroid 12"
-        - "crDroid 13"
-    type: dropdown
-    validations: 
+
+  - type: input
+    id: version
+    attributes:
+      label: crDroid version / build date
+      description: "Found in Settings → About phone → crDroid"
+      placeholder: "12.5 / 2026-01-02"
+    validations:
       required: true
-  - attributes: 
-      description: "Exact crDroid version **Ex: 12.5/2026-01-02**"
-      label: Exact version / Build date
-    type: textarea
-    validations: 
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What's wrong?
+      description: "Describe what happens and what you expected to happen instead."
+    validations:
       required: true
-  - attributes: 
-      description: "Simple description of the issue"
-      label: "Bug description"
-    type: textarea
-    validations: 
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to Settings → crDroid settings
+        2. Tap ...
+        3. See error
+    validations:
       required: true
-  - attributes: 
-      description: "Steps to reproduce the issue"
-      label: "Steps to reproduce"
-      placeholder: "Step 1. Go to crDroid settings. Step 2. ..."
-    type: textarea
-    validations: 
-      required: true
-  - attributes: 
-      description: "Please copy and paste any relevant log output.  
-        This will be automatically formatted into code, so no need for backticks."
-      label: "Relevant log (logcat/build log)"
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs (logcat / build log)
+      description: "Strongly recommended for crashes and functional bugs. Auto-formatted, no backticks needed."
       render: shell
-    type: textarea
-    validations: 
-      required: true
-  - attributes: 
-      description: "Add screenshots or videos that show the bug here."
-      label: "Screenshots or videos"
-      placeholder: "Drag and drop the screenshots/videos into this box."
-    type: textarea
-    validations: 
+    validations:
       required: false
-  - attributes: 
-      description: "If applicable, add a possible solution."
-      label: Solution
-    type: textarea
-    validations: 
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshots, videos, or extra context
+      description: "Drag and drop files here. Add a suggested fix if you have one."
+    validations:
       required: false
-  - attributes: 
-      description: "Add additional context here."
-      label: "Additional context"
-    type: textarea
-    validations: 
-      required: false
-  - attributes: 
-      description: "Your issue will be closed if you haven't done these steps."
-      label: Acknowledgements
-      options: 
-        - label: "I've checked device is officially supported and that no support is provided for unofficial devices (for device specific reports and not source related)."
-          required: false
-        - label: "I'm running latest version available on crdroid.net for this device and that the device is still maintainer supported (not flagged unsupported on download page)"
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: "I'm on an **official** build, running the latest version for my device from crdroid.net"
           required: true
-        - label: "I have searched the existing issues and this is a new and no duplicate or related to another open issue."
+        - label: "I searched existing issues and this isn't a duplicate"
           required: true
-        - label: "I have written a short but informative title."
-          required: true
-        - label: "I filled out all of the requested information in this issue properly and understand that not doing so will automatically result in closing of ticket."
-          required: true
-    id: acknowledgements
-    type: checkboxes
