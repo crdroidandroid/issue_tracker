@@ -1,0 +1,138 @@
+name: Auto-assign maintainer
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  assign:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const OTA = { owner: 'crdroidandroid', repo: 'android_vendor_crDroidOTA' };
+            const BRANCHES = { 'crDroid 12': '16.0', 'crDroid 13': '17.0' };
+            const IGNORED_AUTHORS = ['github-actions[bot]', 'dependabot[bot]'];
+            const TELEGRAM = 'https://t.me/crDroidAndroid';
+
+            const issue = context.payload.issue;
+            const ref = { ...context.repo, issue_number: issue.number };
+            const body = issue.body || '';
+
+            // Parse issue-form sections: "### Label\n\nvalue"
+            const field = (label) => {
+              const re = new RegExp(`###\\s+${label}\\s*\\n+([\\s\\S]*?)(?=\\n###\\s|$)`, 'i');
+              const m = body.match(re);
+              const v = m ? m[1].trim() : '';
+              return v === '_No response_' ? '' : v;
+            };
+
+            let codename = field('Device codename');
+            const versionLabel = field('crDroid version');
+
+            // Not created from our bug form -> do nothing
+            if (!codename || !versionLabel) return;
+
+            const branch = BRANCHES[versionLabel];
+            if (!branch) return;
+
+            // Accept "OnePlus 9 Pro (lemonadep)" and "lemonadep.json" too
+            const paren = codename.match(/\(([^)]+)\)/);
+            if (paren) codename = paren[1];
+            codename = codename.trim().toLowerCase().replace(/\.json$/, '');
+
+            const comment = (text) =>
+              github.rest.issues.createComment({ ...ref, body: text });
+
+            // Create a label with a color if it doesn't exist yet (422 = already exists)
+            const ensureLabel = async (name, color, description) => {
+              try {
+                await github.rest.issues.createLabel({ ...context.repo, name, color, description });
+              } catch (e) {
+                if (e.status !== 422) throw e;
+              }
+            };
+
+            const closeNotFound = async (shownCodename) => {
+              await ensureLabel('device-not-found', 'D73A4A', 'Device not found in the official support repo');
+              await github.rest.issues.addLabels({ ...ref, labels: ['device-not-found'] });
+              await comment(
+                `Device \`${shownCodename}\` was not found in the official support repo for **${versionLabel}** (branch \`${branch}\`), so this issue has been closed automatically.\n\n` +
+                `**Made a typo, or picked the wrong crDroid version?** Please open a new issue with the correct codename and version.\n\n` +
+                `**Using an unofficial build or an unlisted device?** We can't provide support here for those. You can get help from the community:\n` +
+                `- Telegram: ${TELEGRAM}\n` +
+                `- The device's thread on the forums (XDA etc.), if one exists`
+              );
+              await github.rest.issues.update({ ...ref, state: 'closed', state_reason: 'not_planned' });
+            };
+
+            // Strict validation: also prevents weird paths
+            if (!/^[a-z0-9_-]+$/.test(codename)) {
+              await closeNotFound(codename.slice(0, 50));
+              return;
+            }
+
+            const path = `${codename}.json`;
+
+            // 1) Does the device exist on this branch?
+            let file;
+            try {
+              const res = await github.rest.repos.getContent({ ...OTA, path, ref: branch });
+              file = res.data;
+            } catch (e) {
+              if (e.status === 404) {
+                await closeNotFound(codename);
+                return;
+              }
+              throw e; // rate limit / outage: don't close anything
+            }
+
+            // 2) Device is valid -> create (if needed) and add device + version labels
+            await ensureLabel(`device:${codename}`, '1D76DB', `Issues for device ${codename}`);
+            await ensureLabel(versionLabel, 'FB8500', 'crDroid version');
+
+            await github.rest.issues.addLabels({
+              ...ref,
+              labels: [`device:${codename}`, versionLabel],
+            });
+
+            // 3) Is a maintainer set?
+            let maintainer = '';
+            try {
+              const json = JSON.parse(Buffer.from(file.content, 'base64').toString('utf8'));
+              maintainer = String(json?.response?.[0]?.maintainer ?? '').trim();
+            } catch (e) {
+              core.warning(`Could not parse ${path}: ${e.message}`);
+            }
+
+            if (!maintainer) {
+              await ensureLabel('no-maintainer', '6E7781', 'No maintainer listed for this device');
+              await github.rest.issues.addLabels({ ...ref, labels: ['no-maintainer'] });
+              await comment(`No maintainer is listed for \`${codename}\` on ${versionLabel}, so this issue was not auto-assigned.`);
+              return;
+            }
+
+            // 4) Last committer of that file on that branch
+            const commits = await github.rest.repos.listCommits({
+              ...OTA, sha: branch, path, per_page: 10,
+            });
+            const author = commits.data
+              .map(c => c.author?.login)
+              .find(l => l && !IGNORED_AUTHORS.includes(l));
+
+            if (!author) {
+              await comment(`Could not determine a GitHub user for \`${path}\`; not auto-assigned.`);
+              return;
+            }
+
+            // 5) Assign (fallback to a mention if the user isn't assignable here)
+            const res = await github.rest.issues.addAssignees({ ...ref, assignees: [author] });
+            const assigned = res.data.assignees.some(a => a.login.toLowerCase() === author.toLowerCase());
+
+            if (!assigned) {
+              await comment(`@${author} (last committer of \`${path}\` on \`${branch}\`) could not be assigned automatically, pinging instead.`);
+            }
