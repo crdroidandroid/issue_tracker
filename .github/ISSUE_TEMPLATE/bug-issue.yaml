@@ -6,7 +6,7 @@ body:
     attributes:
       value: |
         ## crDroid bug report
-        Before submitting, please [search existing issues](https://github.com/crdroidandroid/issue_tracker/issues?q=is%3Aissue+label%3Abug).
+        Before submitting, please [search existing issues](https://github.com/crdroidandroid/issue_tracker/issues?q=is%3Aissue).
 
         ⚠️ **Unofficial builds are not supported**, since we can't verify device-specific sources.
 
