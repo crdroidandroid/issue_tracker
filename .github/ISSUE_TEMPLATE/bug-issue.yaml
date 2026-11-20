@@ -7,24 +7,34 @@ body:
       value: |
         ## crDroid bug report
         Before submitting, please [search existing issues](https://github.com/crdroidandroid/issue_tracker/issues?q=is%3Aissue+label%3Abug).
-        
+
         ⚠️ **Unofficial builds are not supported**, since we can't verify device-specific sources.
 
   - type: input
-    id: device
+    id: codename
     attributes:
-      label: Device
-      description: "Format: **Device name (codename)**"
-      placeholder: "Pixel 7 (panther)"
+      label: Device codename
+      description: "Codename only, e.g. **lemonadep**. You can find it on your device page on crdroid.net."
+      placeholder: "lemonadep"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: crdroid_version
+    attributes:
+      label: crDroid version
+      options:
+        - "crDroid 13"
+        - "crDroid 12"
     validations:
       required: true
 
   - type: input
-    id: version
+    id: build
     attributes:
-      label: crDroid version / build date
+      label: Exact version / build date
       description: "Found in Settings → About phone → crDroid"
-      placeholder: "12.5 / 2026-01-02"
+      placeholder: "13.1 / 2026-11-15"
     validations:
       required: true
 
