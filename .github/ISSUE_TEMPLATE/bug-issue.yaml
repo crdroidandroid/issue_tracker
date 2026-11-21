@@ -79,6 +79,8 @@ body:
     attributes:
       label: Before submitting
       options:
+        - label: "I understand that all issues must be written in **english**. Issues that do not follow this rule will be closed"
+          required: true
         - label: "I'm on an **official** build, running the latest version for my device from crdroid.net (failing this check, closes the issue automatically)"
           required: true
         - label: "I searched existing issues and this isn't a duplicate"
